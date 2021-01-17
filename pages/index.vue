@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center" align="center">
     <v-col cols="12" sm="8" md="6">
-      <div class="text-center">Hello World!</div>
+      <div class="text-center">{{ getUsers }}</div>
       <v-card>
         <v-card-title class="headline">
           Welcome to the Vuetify + Nuxt.js template
@@ -78,5 +78,17 @@
 </template>
 
 <script>
-export default {}
+import { mapGetters } from 'vuex'
+
+export default {
+  async asyncData({ store }) {
+    await store.dispatch('users/init')
+  },
+  computed: {
+    ...mapGetters('users', { users: 'getUsers', userById: 'getUserById' }),
+  },
+  mounted() {
+    window.console.log(this.userById(1))
+  },
+}
 </script>
